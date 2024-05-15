@@ -38,7 +38,7 @@ public class OfferService {
         List<Offer> returnOffers = new ArrayList<>();
 
         for(Offer offer : offers){
-            if(offer.getCompanyid().equals(id)){
+            if(offer.getCompanyid().intValue() == id){
                 returnOffers.add(offer);
             }
         }
