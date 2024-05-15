@@ -40,8 +40,9 @@ public class CurriculumController {
      */
     @CrossOrigin
     @PostMapping("/createCurriculum")
-    public Curriculum createCurriculum(@RequestBody Curriculum curriculum) {
-        return curriculumService.create(curriculum);
+    public Integer createCurriculum(@RequestBody Curriculum curriculum) {
+        Curriculum cu = curriculumService.create(curriculum);
+        return cu.getId();
     }
 
     /**
