@@ -61,20 +61,24 @@ public class OfferController {
      * @description Updates an existing Offer.
      *
      * @param id the ID of the Offer to update.
-     * @param offerDetails the details of the updated Offer.
+     * @param status the new status of Offer.
+     * @param tittleOffer the new titleOffer of Offer.
+     * @param description the new description of Offer.
+     * @param requeriments the new requeriments of Offer.
+     *
      * @return The updated Offer.
      */
     @CrossOrigin
     @PutMapping("/updateOffer/{id}")
-    public Offer updateOffer(@PathVariable Long id, @RequestBody Offer offerDetails){
+    public Offer updateOffer(@PathVariable Long id, @RequestBody String status, @RequestBody String tittleOffer, @RequestBody String description, @RequestBody String requeriments){
         Optional<Offer> optionalOffer = offerService.getById(id);
 
         Offer offer = optionalOffer.get();
 
-        offer.setTittleoffer(offerDetails.getTittleoffer());
-        offer.setDescription(offerDetails.getDescription());
-        offer.setStatus(offerDetails.getStatus());
-        offer.setRequeriments(offerDetails.getRequeriments());
+        offer.setTittleoffer(tittleOffer);
+        offer.setDescription(description);
+        offer.setStatus(status);
+        offer.setRequeriments(requeriments);
 
         return offerService.update(offer);
 
