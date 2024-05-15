@@ -38,8 +38,8 @@ public class CandidatestatusController {
      * @return An iterable list of Candidatestatus.
      */
     @CrossOrigin
-    @GetMapping("/getCandidatestatus/{id}")
-    public Iterable<Candidatestatus> getAllCandidatestatuss(@PathVariable Long id) {
+    @GetMapping("/getCandidatestatus")
+    public Iterable<Candidatestatus> getAllCandidatestatuss() {
         return candidatestatusService.getAll();
     }
 
