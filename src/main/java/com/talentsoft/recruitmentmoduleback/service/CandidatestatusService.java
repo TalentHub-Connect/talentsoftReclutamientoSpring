@@ -34,6 +34,25 @@ public class CandidatestatusService {
     }
 
     /**
+     * @name getById
+     * @description Retrieves Candidatestatus by its ID.
+     *
+     * @param description the Name of the Candidatestatus
+     * @return An optional containing the Candidatestatus with the specified ID, if exists
+     */
+    public Candidatestatus getByDescription(String description){
+        Iterable<Candidatestatus> allStatus = candidateStatusRepository.findAll();
+
+        for(Candidatestatus c : allStatus){
+            if(c.getDescription().equals(description)){
+                return c;
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * @name create
      * @description Creates a new Candidatestatus.
      *

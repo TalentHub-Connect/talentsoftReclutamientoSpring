@@ -1,5 +1,6 @@
 package com.talentsoft.recruitmentmoduleback.controller;
 
+import com.talentsoft.recruitmentmoduleback.model.Candidatestatus;
 import com.talentsoft.recruitmentmoduleback.model.Offer;
 import com.talentsoft.recruitmentmoduleback.service.OfferService;
 import com.talentsoft.recruitmentmoduleback.service.CurriculumService;
