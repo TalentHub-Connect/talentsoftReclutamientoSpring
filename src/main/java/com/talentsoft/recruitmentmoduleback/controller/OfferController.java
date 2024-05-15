@@ -70,7 +70,7 @@ public class OfferController {
      */
     @CrossOrigin
     @PutMapping("/updateOffer/{id}")
-    public Offer updateOffer(@PathVariable Long id, @RequestBody String status, @RequestBody String tittleoffer, @RequestBody String description, @RequestBody String requeriments){
+    public Offer updateOffer(@PathVariable Long id, @RequestParam String status, @RequestParam String tittleoffer, @RequestParam String description, @RequestParam String requeriments){
         Optional<Offer> optionalOffer = offerService.getById(id);
 
         Offer offer = optionalOffer.get();
