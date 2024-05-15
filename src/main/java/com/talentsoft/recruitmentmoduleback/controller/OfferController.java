@@ -5,6 +5,8 @@ import com.talentsoft.recruitmentmoduleback.model.Offer;
 import com.talentsoft.recruitmentmoduleback.service.OfferService;
 import com.talentsoft.recruitmentmoduleback.service.CurriculumService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -57,32 +59,14 @@ public class OfferController {
         return offerService.create(Offer);
     }
 
-    /**
-     * @name updateOffer
-     * @description Updates an existing Offer.
-     *
-     * @param id the ID of the Offer to update.
-     * @param status the new status of Offer.
-     * @param tittleoffer the new titleOffer of Offer.
-     * @param description the new description of Offer.
-     * @param requeriments the new requeriments of Offer.
-     *
-     * @return The updated Offer.
-     */
-    @CrossOrigin
     @PutMapping("/updateOffer/{id}")
-    public Offer updateOffer(@PathVariable Long id, @RequestParam String status, @RequestParam String tittleoffer, @RequestParam String description, @RequestParam String requeriments){
-        Optional<Offer> optionalOffer = offerService.getById(id);
-
-        Offer offer = optionalOffer.get();
-
-        offer.setTittleoffer(tittleoffer);
-        offer.setDescription(description);
-        offer.setStatus(status);
-        offer.setRequeriments(requeriments);
-
-        return offerService.update(offer);
-
+    public ResponseEntity<?> updateOffer(@PathVariable Long id, @RequestParam String status, @RequestParam String tittleOffer, @RequestParam String description, @RequestParam String requirements) {
+        try {
+            Offer updatedOffer = offerService.updateOffer(id, status, tittleOffer, description, requirements);
+            return ResponseEntity.ok(updatedOffer);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 
     /**

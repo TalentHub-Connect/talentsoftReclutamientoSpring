@@ -1,5 +1,6 @@
 package com.talentsoft.recruitmentmoduleback.service;
 
+import com.talentsoft.recruitmentmoduleback.exception.OfferNotFoundException;
 import com.talentsoft.recruitmentmoduleback.model.Candidate;
 import com.talentsoft.recruitmentmoduleback.model.Offer;
 import com.talentsoft.recruitmentmoduleback.repository.OfferRepository;
@@ -53,9 +54,26 @@ public class OfferService {
      * @param id the ID of the Offer
      * @return An optional containing the Offer with the specified ID, if exists
      */
+
     public Optional<Offer> getById(Long id){
         return offerRepository.findById(id);
     }
+
+    public Offer updateOffer(Long id, String status, String tittleOffer, String description, String requirements) {
+        Optional<Offer> optionalOffer = getById(id);
+        if (optionalOffer.isPresent()) {
+            Offer offer = optionalOffer.get();
+            offer.setStatus(status);
+            offer.setTittleoffer(tittleOffer);
+            offer.setDescription(description);
+            offer.setRequeriments(requirements);
+            return offerRepository.save(offer);
+        } else {
+            throw new OfferNotFoundException("Offer not found with id: " + id);
+        }
+    }
+
+
 
     /**
      * @name create
