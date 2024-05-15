@@ -1,8 +1,11 @@
 package com.talentsoft.recruitmentmoduleback.controller;
 
+import com.talentsoft.recruitmentmoduleback.DTO.CandidateDTO;
 import com.talentsoft.recruitmentmoduleback.model.Candidate;
+import com.talentsoft.recruitmentmoduleback.model.Candidatestatus;
 import com.talentsoft.recruitmentmoduleback.model.Offer;
 import com.talentsoft.recruitmentmoduleback.service.CandidateService;
+import com.talentsoft.recruitmentmoduleback.service.CandidatestatusService;
 import com.talentsoft.recruitmentmoduleback.service.CurriculumService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,16 +23,11 @@ public class CandidateController {
     private CandidateService candidateService;
 
     /**
-     * @description Conects with the services for Curriculum.
+     * @description Conects with the services for Candidatestatus.
      */
     @Autowired
-    private CurriculumService curriculumService;
+    private CandidatestatusService candidatestatusService;
 
-    /**
-     * @description Conects with the services for Offer.
-     */
-    @Autowired
-    private OfferController offerController;
 
     /***
      * @name getAllCandidates
@@ -79,13 +77,13 @@ public class CandidateController {
      */
     @CrossOrigin
     @PutMapping("/updateCandidate/{id}")
-    public Candidate updateCandidate(@PathVariable Long id, @RequestBody Candidate candidateDetails){
+    public Candidate updateCandidate(@PathVariable Long id, @RequestBody CandidateDTO candidateDetails){
         Optional<Candidate> optionalCandidate = candidateService.getById(id);
+        Candidatestatus ca = candidatestatusService.getByDescription(candidateDetails.getStatus());
 
         Candidate candidate = optionalCandidate.get();
 
-        candidate.setName(candidateDetails.getName());
-        candidate.setSurname(candidateDetails.getSurname());
+        candidate.setCandidatestatusid(ca.getId());
         candidate.setPhonenumber(candidateDetails.getPhonenumber());
 
         return candidateService.update(candidate);
