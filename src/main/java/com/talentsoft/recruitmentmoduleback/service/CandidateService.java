@@ -38,7 +38,7 @@ public class CandidateService {
         List<Candidate> returnCantidades = new ArrayList<>();
 
         for(Candidate candidate : candidates){
-            if(candidate.getCompanyid().equals(id)){
+            if(candidate.getCompanyid().intValue() == id){
                 returnCantidades.add(candidate);
             }
         }
