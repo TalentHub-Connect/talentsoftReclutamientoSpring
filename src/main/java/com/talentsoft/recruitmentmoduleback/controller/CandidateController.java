@@ -1,6 +1,7 @@
 package com.talentsoft.recruitmentmoduleback.controller;
 
 import com.talentsoft.recruitmentmoduleback.model.Candidate;
+import com.talentsoft.recruitmentmoduleback.model.Offer;
 import com.talentsoft.recruitmentmoduleback.service.CandidateService;
 import com.talentsoft.recruitmentmoduleback.service.CurriculumService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,6 +87,27 @@ public class CandidateController {
         candidate.setName(candidateDetails.getName());
         candidate.setSurname(candidateDetails.getSurname());
         candidate.setPhonenumber(candidateDetails.getPhonenumber());
+
+        return candidateService.update(candidate);
+
+    }
+
+    /**
+     * @name deleteCandidate
+     * @description Updates an existing Candidate.
+     *
+     * @param id the ID of the Candidate to update.
+     * @param candidateDetails the details of the updated Candidate.
+     * @return The updated Candidate.
+     */
+    @CrossOrigin
+    @PutMapping("/deleteCandidate/{id}")
+    public Candidate deleteCandidate(@PathVariable Long id, @RequestBody Candidate candidateDetails){
+        Optional<Candidate> candidateOptional = candidateService.getById(id);
+
+        Candidate candidate = candidateOptional.get();
+
+        candidate.setCandidatestatusid(7); // The number 7 has the Rejected status.
 
         return candidateService.update(candidate);
 
