@@ -3,6 +3,8 @@ package com.talentsoft.recruitmentmoduleback.controller;
 import com.talentsoft.recruitmentmoduleback.model.Curriculum;
 import com.talentsoft.recruitmentmoduleback.service.CurriculumService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -40,9 +42,14 @@ public class CurriculumController {
      */
     @CrossOrigin
     @PostMapping("/createCurriculum")
-    public Integer createCurriculum(@RequestBody Curriculum curriculum) {
-        Curriculum cu = curriculumService.create(curriculum);
-        return cu.getId();
+    public ResponseEntity<Long> createCurriculum(@RequestBody Curriculum curriculum) {
+        try {
+            Curriculum cu = curriculumService.create(curriculum);
+            Long curriculumId = cu.getId().longValue();
+            return new ResponseEntity<>(curriculumId, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     /**
