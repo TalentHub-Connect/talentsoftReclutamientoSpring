@@ -73,10 +73,29 @@ public class OfferController {
 
         offer.setTittleoffer(offerDetails.getTittleoffer());
         offer.setDescription(offerDetails.getDescription());
-        offer.setExperience(offerDetails.getExperience());
-        offer.setPublishdate(offerDetails.getPublishdate());
-        offer.setRequeriments(offerDetails.getRequeriments());
         offer.setStatus(offerDetails.getStatus());
+        offer.setRequeriments(offerDetails.getRequeriments());
+
+        return offerService.update(offer);
+
+    }
+
+    /**
+     * @name updateOffer
+     * @description Updates an existing Offer.
+     *
+     * @param id the ID of the Offer to update.
+     * @param status the details of the deleted Offer.
+     * @return The updated Offer.
+     */
+    @CrossOrigin
+    @PutMapping("/deleteOffer/{id}")
+    public Offer deleteOffer(@PathVariable Long id, @RequestBody String status){
+        Optional<Offer> optionalOffer = offerService.getById(id);
+
+        Offer offer = optionalOffer.get();
+
+        offer.setStatus(status);
 
         return offerService.update(offer);
 
