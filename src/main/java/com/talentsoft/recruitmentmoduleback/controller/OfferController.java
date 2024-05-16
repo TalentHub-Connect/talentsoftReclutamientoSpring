@@ -1,9 +1,7 @@
 package com.talentsoft.recruitmentmoduleback.controller;
 
-import com.talentsoft.recruitmentmoduleback.model.Candidatestatus;
 import com.talentsoft.recruitmentmoduleback.model.Offer;
 import com.talentsoft.recruitmentmoduleback.service.OfferService;
-import com.talentsoft.recruitmentmoduleback.service.CurriculumService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

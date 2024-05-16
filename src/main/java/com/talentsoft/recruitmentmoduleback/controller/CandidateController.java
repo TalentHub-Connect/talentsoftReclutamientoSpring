@@ -1,13 +1,13 @@
 package com.talentsoft.recruitmentmoduleback.controller;
 
 import com.talentsoft.recruitmentmoduleback.DTO.CandidateDTO;
+import com.talentsoft.recruitmentmoduleback.exception.CandidateNotFoundException;
 import com.talentsoft.recruitmentmoduleback.model.Candidate;
-import com.talentsoft.recruitmentmoduleback.model.Candidatestatus;
-import com.talentsoft.recruitmentmoduleback.model.Offer;
 import com.talentsoft.recruitmentmoduleback.service.CandidateService;
-import com.talentsoft.recruitmentmoduleback.service.CandidatestatusService;
-import com.talentsoft.recruitmentmoduleback.service.CurriculumService;
+import com.talentsoft.recruitmentmoduleback.service.candidateStatusService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -16,25 +16,15 @@ import java.util.Optional;
 @RequestMapping("/candidate")
 public class CandidateController {
 
-    /**
-     * @description Conects with the services for Candidate.
-     */
+    private final CandidateService candidateService;
+    private final candidateStatusService candidatestatusService;
+
     @Autowired
-    private CandidateService candidateService;
+    public CandidateController(CandidateService candidateService, candidateStatusService candidatestatusService) {
+        this.candidateService = candidateService;
+        this.candidatestatusService = candidatestatusService;
+    }
 
-    /**
-     * @description Conects with the services for Candidatestatus.
-     */
-    @Autowired
-    private CandidatestatusService candidatestatusService;
-
-
-    /***
-     * @name getAllCandidates
-     * @description Retrieves all existing Candidates.
-     *
-     * @return An iterable list of Candidates.
-     */
     @CrossOrigin
     @GetMapping("/getCandidates/{id}")
     public Iterable<Candidate> getAllCandidates(@PathVariable Long id) {
@@ -48,6 +38,7 @@ public class CandidateController {
      * @param id the ID of the Candidate.
      * @return An optional containing the Candidate with the specified ID, if exists.
      */
+
     @CrossOrigin
     @GetMapping("/{id}")
     public Optional<Candidate> getCandidateById(@PathVariable Long id) {
@@ -75,19 +66,15 @@ public class CandidateController {
      * @param candidateDetails the details of the updated Candidate.
      * @return The updated Candidate.
      */
-    @CrossOrigin
+
     @PutMapping("/updateCandidate/{id}")
-    public Candidate updateCandidate(@PathVariable Long id, @RequestBody CandidateDTO candidateDetails){
-        Optional<Candidate> optionalCandidate = candidateService.getById(id);
-        Candidatestatus ca = candidatestatusService.getByDescription(candidateDetails.getStatus());
-
-        Candidate candidate = optionalCandidate.get();
-
-        candidate.setCandidatestatusid(ca.getId());
-        candidate.setPhonenumber(candidateDetails.getPhonenumber());
-
-        return candidateService.update(candidate);
-
+    public ResponseEntity<?> updateCandidate(@PathVariable Long id, @RequestBody CandidateDTO candidateDetails) {
+        try {
+            Candidate updatedCandidate = candidateService.updateCandidate(id, candidateDetails.getStatus(), candidateDetails.getPhoneNumber());
+            return ResponseEntity.ok(updatedCandidate);
+        } catch (CandidateNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 
     /**
@@ -105,7 +92,7 @@ public class CandidateController {
 
         Candidate candidate = candidateOptional.get();
 
-        candidate.setCandidatestatusid(7); // The number 7 has the Rejected status.
+        candidate.setCandidateStatusId(7); // The number 7 has the Rejected status.
 
         return candidateService.update(candidate);
 

@@ -1,6 +1,8 @@
 package com.talentsoft.recruitmentmoduleback.service;
 
+import com.talentsoft.recruitmentmoduleback.exception.CandidateNotFoundException;
 import com.talentsoft.recruitmentmoduleback.model.Candidate;
+import com.talentsoft.recruitmentmoduleback.model.CandidateStatus;
 import com.talentsoft.recruitmentmoduleback.repository.CandidateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,8 +15,16 @@ import java.util.Optional;
 @Service
 public class CandidateService {
 
+
+    private final CandidateRepository candidateRepository;
+
+    private final candidateStatusService candidateStatusService;
+
     @Autowired
-    private CandidateRepository candidateRepository;
+    public CandidateService(CandidateRepository candidateRepository, candidateStatusService candidateStatusService) {
+        this.candidateRepository = candidateRepository;
+        this.candidateStatusService = candidateStatusService;
+    }
 
     /**
      * @name getAll
@@ -79,4 +89,18 @@ public class CandidateService {
         return candidateRepository.save(candidate);
     }
 
+    public Candidate updateCandidate(Long id, String status, String phoneNumber) {
+        Optional<Candidate> optionalCandidate = getById(id);
+
+        if (optionalCandidate.isPresent()) {
+            Candidate candidate = optionalCandidate.get();
+            CandidateStatus candidateStatus = candidateStatusService.getByDescription(status);
+            candidate.setCandidateStatusId(candidateStatus.getId());
+            candidate.setPhoneNumber(phoneNumber);
+
+            return candidateRepository.save(candidate);
+        } else {
+            throw new CandidateNotFoundException("Candidate not found with id: " + id);
+        }
+    }
 }
