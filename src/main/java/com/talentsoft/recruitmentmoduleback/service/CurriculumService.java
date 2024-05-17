@@ -13,8 +13,12 @@ import java.util.Optional;
 @Service
 public class CurriculumService {
 
+    private final CurriculumRepository curriculumRepository;
+
     @Autowired
-    private CurriculumRepository curriculumRepository;
+    public CurriculumService(CurriculumRepository curriculumRepository) {
+        this.curriculumRepository = curriculumRepository;
+    }
 
     /**
      * @name getAll
