@@ -4,7 +4,6 @@ import com.talentsoft.recruitmentmoduleback.DTO.CandidateDTO;
 import com.talentsoft.recruitmentmoduleback.exception.CandidateNotFoundException;
 import com.talentsoft.recruitmentmoduleback.model.Candidate;
 import com.talentsoft.recruitmentmoduleback.service.CandidateService;
-import com.talentsoft.recruitmentmoduleback.service.candidateStatusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +18,7 @@ public class CandidateController {
     private final CandidateService candidateService;
 
     @Autowired
-    public CandidateController(CandidateService candidateService, candidateStatusService candidatestatusService) {
+    public CandidateController(CandidateService candidateService) {
         this.candidateService = candidateService;
     }
 
