@@ -42,13 +42,16 @@ public class CandidateService {
      *
      * @return An iterable list of Candidates
      */
-    public List<Candidate> getAllByCompany(Long id){
+    public List<Candidate> getAllByCompany(int id){
 
         Iterable<Candidate> candidates = candidateRepository.findAll();
         List<Candidate> returnCantidades = new ArrayList<>();
 
         for(Candidate candidate : candidates){
-            if(candidate.getCompanyid().intValue() == id){
+            if(candidate.getCompanyid() == id){
+                if(candidate.getCandidateStatusId() == 7){
+                    returnCantidades.add(candidate);
+                }
                 returnCantidades.add(candidate);
             }
         }

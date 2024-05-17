@@ -25,7 +25,7 @@ public class CandidateController {
 
     @CrossOrigin
     @GetMapping("/getCandidates/{id}")
-    public Iterable<Candidate> getAllCandidates(@PathVariable Long id) {
+    public Iterable<Candidate> getAllCandidates(@PathVariable int id) {
         return candidateService.getAllByCompany(id);
     }
 
@@ -87,7 +87,7 @@ public class CandidateController {
 
         Candidate candidate = candidateOptional.get();
 
-        candidate.setCandidateStatusId(7); // The number 7 has the Rejected status.
+        candidate.setCandidateStatusId(7);
 
         return candidateService.update(candidate);
 
