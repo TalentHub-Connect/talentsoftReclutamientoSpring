@@ -16,19 +16,24 @@ public class OfferController {
     /**
      * @description Conects with the services for Offer.
      */
-    @Autowired
-    private OfferService offerService;
 
-    /***
+    private final OfferService offerService;
+
+    @Autowired
+    public OfferController(OfferService offerService) {
+        this.offerService = offerService;
+    }
+
+    /**
      * @name getAllOffers
      * @description Retrieves all existing Offers.
      *
      * @return An iterable list of Offers.
      */
-    @CrossOrigin
+
     @GetMapping("/getOffers/{id}")
-    public Iterable<Offer> getAllOffers(@PathVariable Long id) {
-        return offerService.getAllByCompany(id);
+    public ResponseEntity<?> getAllOffers(@PathVariable Long id) {
+        return ResponseEntity.ok(offerService.getAllByCompany(id));
     }
 
     /***

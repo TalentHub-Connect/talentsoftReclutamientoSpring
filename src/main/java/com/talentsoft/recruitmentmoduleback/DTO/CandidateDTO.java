@@ -6,9 +6,6 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 public class CandidateDTO {
-
-    private final String status;
-    private final String phoneNumber;
-
-
+    private String status;
+    private String phoneNumber;
 }

@@ -56,16 +56,7 @@ public class CandidateService {
         return returnCantidades;
     }
 
-    /**
-     * @name getById
-     * @description Retrieves Candidate by its ID.
-     *
-     * @param id the ID of the Candidate
-     * @return An optional containing the Candidate with the specified ID, if exists
-     */
-    public Optional<Candidate> getById(Long id){
-        return candidateRepository.findById(id);
-    }
+
 
     /**
      * @name create
@@ -90,17 +81,23 @@ public class CandidateService {
     }
 
     public Candidate updateCandidate(Long id, String status, String phoneNumber) {
-        Optional<Candidate> optionalCandidate = getById(id);
+       try{
+              Candidate candidate = candidateRepository.findById(id).orElse(null);
+              if(candidate != null){
+                   CandidateStatus candidateStatus = candidateStatusService.getByDescription(status);
+                     if(candidateStatus != null){
+                          candidate.setCandidateStatusId(candidateStatus.getId());
+                     }
+                candidate.setPhoneNumber(phoneNumber);
+                return candidateRepository.save(candidate);
+              }
+              return null;
+       }catch (Exception e){
+           throw new CandidateNotFoundException("Candidate not found with id: " + id);
+       }
+    }
 
-        if (optionalCandidate.isPresent()) {
-            Candidate candidate = optionalCandidate.get();
-            CandidateStatus candidateStatus = candidateStatusService.getByDescription(status);
-            candidate.setCandidateStatusId(candidateStatus.getId());
-            candidate.setPhoneNumber(phoneNumber);
-
-            return candidateRepository.save(candidate);
-        } else {
-            throw new CandidateNotFoundException("Candidate not found with id: " + id);
-        }
+    public Optional<Candidate> getById(Long id) {
+        return candidateRepository.findById(id);
     }
 }

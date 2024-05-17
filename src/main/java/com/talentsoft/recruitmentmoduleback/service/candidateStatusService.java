@@ -9,8 +9,12 @@ import java.util.Optional;
 @Service
 public class candidateStatusService {
 
+    private final CandidateStatusRepository candidateStatusRepository;
+
     @Autowired
-    private CandidateStatusRepository candidateStatusRepository;
+    public candidateStatusService(CandidateStatusRepository candidateStatusRepository) {
+        this.candidateStatusRepository = candidateStatusRepository;
+    }
 
     /**
      * @name getAll

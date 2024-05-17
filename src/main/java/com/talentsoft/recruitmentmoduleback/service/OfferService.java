@@ -1,21 +1,22 @@
 package com.talentsoft.recruitmentmoduleback.service;
 
 import com.talentsoft.recruitmentmoduleback.exception.OfferNotFoundException;
-import com.talentsoft.recruitmentmoduleback.model.Candidate;
 import com.talentsoft.recruitmentmoduleback.model.Offer;
 import com.talentsoft.recruitmentmoduleback.repository.OfferRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class OfferService {
 
+    private final OfferRepository offerRepository;
+
     @Autowired
-    private OfferRepository offerRepository;
+    public OfferService(OfferRepository offerRepository) {
+        this.offerRepository = offerRepository;
+    }
 
     /**
      * @name getAll
@@ -23,6 +24,7 @@ public class OfferService {
      *
      * @return An iterable list of Offers
      */
+
     public Iterable<Offer> getAll(){
         return offerRepository.findAll();
     }
@@ -33,18 +35,9 @@ public class OfferService {
      *
      * @return An iterable list of Offers
      */
+
     public List<Offer> getAllByCompany(Long id){
-
-        Iterable<Offer> offers = offerRepository.findAll();
-        List<Offer> returnOffers = new ArrayList<>();
-
-        for(Offer offer : offers){
-            if(offer.getCompanyid().intValue() == id){
-                returnOffers.add(offer);
-            }
-        }
-
-        return returnOffers;
+        return offerRepository.findAllByCompanyId(id);
     }
 
     /**
@@ -73,8 +66,6 @@ public class OfferService {
         }
     }
 
-
-
     /**
      * @name create
      * @description Creates a new Offer.
@@ -82,6 +73,7 @@ public class OfferService {
      * @param offer the details of the Offer to create
      * @return The newly created Offer
      */
+
     public Offer create(Offer offer){
         return offerRepository.save(offer);
     }
@@ -93,6 +85,7 @@ public class OfferService {
      * @param offer the Offer to update
      * @return The updated Offer
      */
+
     public Offer update(Offer offer){
         return offerRepository.save(offer);
     }

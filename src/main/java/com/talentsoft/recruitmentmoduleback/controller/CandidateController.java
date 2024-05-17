@@ -17,12 +17,10 @@ import java.util.Optional;
 public class CandidateController {
 
     private final CandidateService candidateService;
-    private final candidateStatusService candidatestatusService;
 
     @Autowired
     public CandidateController(CandidateService candidateService, candidateStatusService candidatestatusService) {
         this.candidateService = candidateService;
-        this.candidatestatusService = candidatestatusService;
     }
 
     @CrossOrigin
@@ -39,20 +37,18 @@ public class CandidateController {
      * @return An optional containing the Candidate with the specified ID, if exists.
      */
 
-    @CrossOrigin
     @GetMapping("/{id}")
     public Optional<Candidate> getCandidateById(@PathVariable Long id) {
         return candidateService.getById(id);
     }
 
-    /***
+    /**
      * @name createCandidate
      * @description Creates a new Candidate.
-     *
      * @param candidate the details of the Candidate to create.
      * @return The newly created Candidate.
      */
-    @CrossOrigin
+
     @PostMapping("/createCandidate")
     public Candidate createCandidate(@RequestBody Candidate candidate) {
         return candidateService.create(candidate);
@@ -82,12 +78,11 @@ public class CandidateController {
      * @description Updates an existing Candidate.
      *
      * @param id the ID of the Candidate to update.
-     * @param candidateDetails the details of the updated Candidate.
      * @return The updated Candidate.
      */
     @CrossOrigin
     @PutMapping("/deleteCandidate/{id}")
-    public Candidate deleteCandidate(@PathVariable Long id, @RequestBody Candidate candidateDetails){
+    public Candidate deleteCandidate(@PathVariable Long id){
         Optional<Candidate> candidateOptional = candidateService.getById(id);
 
         Candidate candidate = candidateOptional.get();
