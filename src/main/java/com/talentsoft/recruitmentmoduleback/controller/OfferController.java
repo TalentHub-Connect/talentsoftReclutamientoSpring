@@ -36,27 +36,26 @@ public class OfferController {
         return ResponseEntity.ok(offerService.getAllByCompany(id));
     }
 
-    /***
+    /**
      * @name getOfferById
      * @description Retrieves a Offer by their ID.
-     *
      * @param id the ID of the Offer.
      * @return An optional containing the Offer with the specified ID, if exists.
      */
-    @CrossOrigin
+
     @GetMapping("/{id}")
     public Optional<Offer> getOfferById(@PathVariable Long id) {
         return offerService.getById(id);
     }
 
-    /***
+    /**
      * @name createOffer
      * @description Creates a new Offer.
      *
      * @param Offer the details of the Offer to create.
      * @return The newly created Offer.
      */
-    @CrossOrigin
+
     @PostMapping("/createOffer")
     public Offer createOffer(@RequestBody Offer Offer) {
         return offerService.create(Offer);
@@ -80,17 +79,14 @@ public class OfferController {
      * @param status the details of the deleted Offer.
      * @return The updated Offer.
      */
-    @CrossOrigin
+
     @PutMapping("/deleteOffer/{id}")
     public Offer deleteOffer(@PathVariable Long id, @RequestBody String status){
         Optional<Offer> optionalOffer = offerService.getById(id);
 
         Offer offer = optionalOffer.get();
-
         offer.setStatus(status);
-
         return offerService.update(offer);
-
     }
     
 }
