@@ -1,4 +1,4 @@
-package com.talentsoft.recruitmentmoduleback.DTO;
+package com.talentsoft.recruitmentmoduleback.DTO.request;
 
 import lombok.*;
 

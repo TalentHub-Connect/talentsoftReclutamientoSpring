@@ -1,6 +1,6 @@
 package com.talentsoft.recruitmentmoduleback.controller;
 
-import com.talentsoft.recruitmentmoduleback.DTO.CandidateDTO;
+import com.talentsoft.recruitmentmoduleback.DTO.request.CandidateDTO;
 import com.talentsoft.recruitmentmoduleback.exception.CandidateNotFoundException;
 import com.talentsoft.recruitmentmoduleback.model.Candidate;
 import com.talentsoft.recruitmentmoduleback.service.CandidateService;
