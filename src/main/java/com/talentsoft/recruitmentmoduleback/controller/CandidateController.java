@@ -22,44 +22,54 @@ public class CandidateController {
         this.candidateService = candidateService;
     }
 
-    @CrossOrigin
-    @GetMapping("/getCandidates/{id}")
-    public Iterable<Candidate> getAllCandidates(@PathVariable int id) {
+    @GetMapping("/getCandidates/company/{id}")
+    public Iterable<Candidate> getAllByCompany(@PathVariable int id) {
         return candidateService.getAllByCompany(id);
+    }
+
+    @GetMapping("/getAllCandidates")
+    public Iterable<Candidate> getAllCandidates() {
+        return candidateService.getAll();
     }
 
     /***
      * @name getCandidateById
      * @description Retrieves a Candidate by their ID.
-     *
      * @param id the ID of the Candidate.
      * @return An optional containing the Candidate with the specified ID, if exists.
      */
 
     @GetMapping("/{id}")
-    public Optional<Candidate> getCandidateById(@PathVariable Long id) {
-        return candidateService.getById(id);
+    public ResponseEntity<?> getCandidateById(@PathVariable Long id) {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(candidateService.getById(id));
+        } catch (CandidateNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 
     /**
-     * @name createCandidate
-     * @description Creates a new Candidate.
      * @param candidate the details of the Candidate to create.
      * @return The newly created Candidate.
+     * @name createCandidate
+     * @description Creates a new Candidate.
      */
 
     @PostMapping("/createCandidate")
-    public Candidate createCandidate(@RequestBody Candidate candidate) {
-        return candidateService.create(candidate);
+    public ResponseEntity<?> createCandidate(@RequestBody Candidate candidate) {
+        try {
+            return ResponseEntity.status(HttpStatus.CREATED).body(candidateService.create(candidate));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     /**
-     * @name updateCandidate
-     * @description Updates an existing Candidate.
-     *
-     * @param id the ID of the Candidate to update.
+     * @param id               the ID of the Candidate to update.
      * @param candidateDetails the details of the updated Candidate.
      * @return The updated Candidate.
+     * @name updateCandidate
+     * @description Updates an existing Candidate.
      */
 
     @PutMapping("/updateCandidate/{id}")
@@ -73,23 +83,20 @@ public class CandidateController {
     }
 
     /**
-     * @name deleteCandidate
-     * @description Updates an existing Candidate.
-     *
      * @param id the ID of the Candidate to update.
      * @return The updated Candidate.
+     * @name deleteCandidate
+     * @description Updates an existing Candidate.
      */
     @CrossOrigin
-    @PutMapping("/deleteCandidate/{id}")
-    public Candidate deleteCandidate(@PathVariable Long id){
-        Optional<Candidate> candidateOptional = candidateService.getById(id);
-
-        Candidate candidate = candidateOptional.get();
-
-        candidate.setCandidateStatusId(7);
-
-        return candidateService.update(candidate);
-
+    @DeleteMapping("/deleteCandidate/{id}")
+    public ResponseEntity<?> deleteCandidate(@PathVariable Long id) {
+        try {
+            candidateService.softDeleteCandidate(id);
+            return ResponseEntity.status(HttpStatus.OK).body("Candidate deleted successfully");
+        } catch (CandidateNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 
 }

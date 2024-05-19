@@ -29,9 +29,9 @@ public class CandidateService {
     /**
      * @name getAll
      * @description Retrieves all existing Candidates.
-     *
      * @return An iterable list of Candidates
      */
+
     public Iterable<Candidate> getAll(){
         return candidateRepository.findAll();
     }
@@ -46,8 +46,6 @@ public class CandidateService {
         return candidateRepository.findAllByCompanyIdAndStatusNotEliminado(id);
     }
 
-
-
     /**
      * @name create
      * @description Creates a new Candidate.
@@ -55,17 +53,18 @@ public class CandidateService {
      * @param candidate the details of the Candidate to create
      * @return The newly created Candidate
      */
+
     public Candidate create(Candidate candidate){
         return candidateRepository.save(candidate);
     }
 
     /**
      * @name update
-     * @description Updates an existing Candidate.
-     *
+     * @description Updates an existing Candidate
      * @param candidate the Candidate to update
      * @return The updated Candidate
      */
+
     public Candidate update(Candidate candidate){
         return candidateRepository.save(candidate);
     }
@@ -89,5 +88,13 @@ public class CandidateService {
 
     public Optional<Candidate> getById(Long id) {
         return candidateRepository.findById(id);
+    }
+
+    public void softDeleteCandidate(Long id) {
+        Candidate candidate = candidateRepository.findById(id).orElse(null);
+        if(candidate != null){
+            candidate.setCandidateStatusId(7);
+            candidateRepository.save(candidate);
+        }
     }
 }
