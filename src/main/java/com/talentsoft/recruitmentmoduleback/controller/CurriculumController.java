@@ -3,6 +3,8 @@ package com.talentsoft.recruitmentmoduleback.controller;
 import com.talentsoft.recruitmentmoduleback.DTO.request.CurriculumRequest;
 import com.talentsoft.recruitmentmoduleback.model.Curriculum;
 import com.talentsoft.recruitmentmoduleback.service.CurriculumService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -64,7 +66,11 @@ public class CurriculumController {
      * @param curriculumDetails the details of the updated Curriculum.
      * @return The updated Curriculum.
      */
-    @CrossOrigin
+
+
+    @Operation(summary = "Update curriculum")
+    @ApiResponse(responseCode = "200", description = "Curriculum updated")
+    @ApiResponse(responseCode = "404", description = "Curriculum not found")
     @PutMapping("/updateCurriculum/{id}")
     public Curriculum updateCurriculum(@PathVariable Long id, @RequestBody Curriculum curriculumDetails){
         Optional<Curriculum> optionalCurriculum = curriculumService.getById(id);

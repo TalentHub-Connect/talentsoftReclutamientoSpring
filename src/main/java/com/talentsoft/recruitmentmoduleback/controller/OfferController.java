@@ -1,5 +1,6 @@
 package com.talentsoft.recruitmentmoduleback.controller;
 
+import com.talentsoft.recruitmentmoduleback.DTO.request.OfferUpdateRequest;
 import com.talentsoft.recruitmentmoduleback.model.Offer;
 import com.talentsoft.recruitmentmoduleback.service.OfferService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,11 @@ public class OfferController {
         return ResponseEntity.ok(offerService.getAllByCompany(id));
     }
 
+    @GetMapping("/getAll")
+    public ResponseEntity<?> getAllOffers() {
+        return ResponseEntity.ok(offerService.getAll());
+    }
+
     /**
      * @name getOfferById
      * @description Retrieves a Offer by their ID.
@@ -62,9 +68,9 @@ public class OfferController {
     }
 
     @PutMapping("/updateOffer/{id}")
-    public ResponseEntity<?> updateOffer(@PathVariable Long id, @RequestParam String status, @RequestParam String tittleOffer, @RequestParam String description, @RequestParam String requirements) {
+    public ResponseEntity<?> updateOffer(@PathVariable Long id, @RequestBody OfferUpdateRequest offerUpdateRequest) {
         try {
-            Offer updatedOffer = offerService.updateOffer(id, status, tittleOffer, description, requirements);
+            Offer updatedOffer = offerService.updateOffer(id, offerUpdateRequest);
             return ResponseEntity.ok(updatedOffer);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
@@ -80,7 +86,7 @@ public class OfferController {
      * @return The updated Offer.
      */
 
-    @PutMapping("/deleteOffer/{id}")
+    @DeleteMapping("/deleteOffer/{id}")
     public Offer deleteOffer(@PathVariable Long id, @RequestBody String status){
         Optional<Offer> optionalOffer = offerService.getById(id);
 
