@@ -67,7 +67,7 @@ public class CandidateService {
         return candidateRepository.save(candidate);
     }
 
-    public Candidate updateCandidate(Long id, String status, String phoneNumber) {
+    public Candidate updateCandidate(Integer id, String status, String phoneNumber) {
        try{
               Candidate candidate = candidateRepository.findById(id).orElse(null);
               if(candidate != null){
@@ -84,11 +84,11 @@ public class CandidateService {
        }
     }
 
-    public Optional<Candidate> getById(Long id) {
+    public Optional<Candidate> getById(Integer id) {
         return candidateRepository.findById(id);
     }
 
-    public Candidate softDeleteCandidate(Long id) {
+    public Candidate softDeleteCandidate(Integer id) {
         Candidate candidate = candidateRepository.findById(id).orElse(null);
         if(candidate != null){
             candidate.setCandidateStatusId(7);

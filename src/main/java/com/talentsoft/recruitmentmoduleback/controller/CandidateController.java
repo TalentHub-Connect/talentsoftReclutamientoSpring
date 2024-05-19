@@ -40,7 +40,7 @@ public class CandidateController {
      */
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getCandidateById(@PathVariable Long id) {
+    public ResponseEntity<?> getCandidateById(@PathVariable Integer id) {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(candidateService.getById(id));
         } catch (CandidateNotFoundException e) {
@@ -73,7 +73,7 @@ public class CandidateController {
      */
 
     @PutMapping("/updateCandidate/{id}")
-    public ResponseEntity<?> updateCandidate(@PathVariable Long id, @RequestBody CandidateDTO candidateDetails) {
+    public ResponseEntity<?> updateCandidate(@PathVariable Integer id, @RequestBody CandidateDTO candidateDetails) {
         try {
             Candidate updatedCandidate = candidateService.updateCandidate(id, candidateDetails.getStatus(), candidateDetails.getPhoneNumber());
             return ResponseEntity.ok(updatedCandidate);
@@ -90,7 +90,7 @@ public class CandidateController {
      */
 
     @PutMapping("/deleteCandidate/{id}")
-    public ResponseEntity<?> deleteCandidate(@PathVariable Long id) {
+    public ResponseEntity<?> deleteCandidate(@PathVariable Integer id) {
         try {
            return ResponseEntity.ok(candidateService.softDeleteCandidate(id));
         } catch (CandidateNotFoundException e) {
