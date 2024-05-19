@@ -88,15 +88,13 @@ public class CandidateController {
      * @name deleteCandidate
      * @description Updates an existing Candidate.
      */
-    @CrossOrigin
+
     @PutMapping("/deleteCandidate/{id}")
     public ResponseEntity<?> deleteCandidate(@PathVariable Long id) {
         try {
-            candidateService.softDeleteCandidate(id);
-            return ResponseEntity.status(HttpStatus.OK).body("Candidate deleted successfully");
+           return ResponseEntity.ok(candidateService.softDeleteCandidate(id));
         } catch (CandidateNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
-
 }
