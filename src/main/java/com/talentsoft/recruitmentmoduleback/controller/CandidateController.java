@@ -83,13 +83,13 @@ public class CandidateController {
     }
 
     /**
-     * @param id the ID of the Candidate to update.
-     * @return The updated Candidate.
-     * @name deleteCandidate
-     * @description Updates an existing Candidate.
-     */
-    @CrossOrigin
-    @DeleteMapping("/deleteCandidate/{id}")
+      * @param id the ID of the Candidate to set the status to "Eliminado".
+      * @return A message indicating the result of the operation.
+      * @name deleteCandidate
+      * @description Deletes a Candidate.
+      */
+
+    @PutMapping("/deleteCandidate/{id}")
     public ResponseEntity<?> deleteCandidate(@PathVariable Long id) {
         try {
             candidateService.softDeleteCandidate(id);
@@ -98,5 +98,4 @@ public class CandidateController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
-
 }
