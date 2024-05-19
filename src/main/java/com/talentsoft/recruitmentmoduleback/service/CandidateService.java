@@ -7,8 +7,6 @@ import com.talentsoft.recruitmentmoduleback.repository.CandidateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -69,7 +67,7 @@ public class CandidateService {
         return candidateRepository.save(candidate);
     }
 
-    public Candidate updateCandidate(Long id, String status, String phoneNumber) {
+    public Candidate updateCandidate(Integer id, String status, String phoneNumber) {
        try{
               Candidate candidate = candidateRepository.findById(id).orElse(null);
               if(candidate != null){
@@ -86,15 +84,16 @@ public class CandidateService {
        }
     }
 
-    public Optional<Candidate> getById(Long id) {
+    public Optional<Candidate> getById(Integer id) {
         return candidateRepository.findById(id);
     }
 
-    public void softDeleteCandidate(Long id) {
+    public Candidate softDeleteCandidate(Integer id) {
         Candidate candidate = candidateRepository.findById(id).orElse(null);
         if(candidate != null){
             candidate.setCandidateStatusId(7);
-            candidateRepository.save(candidate);
+            return candidateRepository.save(candidate);
         }
+        return null;
     }
 }

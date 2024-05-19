@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/candidate")
@@ -40,7 +39,7 @@ public class CandidateController {
      */
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getCandidateById(@PathVariable Long id) {
+    public ResponseEntity<?> getCandidateById(@PathVariable Integer id) {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(candidateService.getById(id));
         } catch (CandidateNotFoundException e) {
@@ -73,7 +72,7 @@ public class CandidateController {
      */
 
     @PutMapping("/updateCandidate/{id}")
-    public ResponseEntity<?> updateCandidate(@PathVariable Long id, @RequestBody CandidateDTO candidateDetails) {
+    public ResponseEntity<?> updateCandidate(@PathVariable Integer id, @RequestBody CandidateDTO candidateDetails) {
         try {
             Candidate updatedCandidate = candidateService.updateCandidate(id, candidateDetails.getStatus(), candidateDetails.getPhoneNumber());
             return ResponseEntity.ok(updatedCandidate);
@@ -83,17 +82,16 @@ public class CandidateController {
     }
 
     /**
-      * @param id the ID of the Candidate to set the status to "Eliminado".
-      * @return A message indicating the result of the operation.
-      * @name deleteCandidate
-      * @description Deletes a Candidate.
-      */
+     * @param id the ID of the Candidate to update.
+     * @return The updated Candidate.
+     * @name deleteCandidate
+     * @description Updates an existing Candidate.
+     */
 
     @PutMapping("/deleteCandidate/{id}")
-    public ResponseEntity<?> deleteCandidate(@PathVariable Long id) {
+    public ResponseEntity<?> deleteCandidate(@PathVariable Integer id) {
         try {
-            candidateService.softDeleteCandidate(id);
-            return ResponseEntity.status(HttpStatus.OK).body("Candidate deleted successfully");
+           return ResponseEntity.ok(candidateService.softDeleteCandidate(id));
         } catch (CandidateNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
