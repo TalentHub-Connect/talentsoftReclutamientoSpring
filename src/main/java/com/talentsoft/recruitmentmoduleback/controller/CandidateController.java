@@ -89,7 +89,7 @@ public class CandidateController {
      * @description Updates an existing Candidate.
      */
     @CrossOrigin
-    @DeleteMapping("/deleteCandidate/{id}")
+    @PutMapping("/deleteCandidate/{id}")
     public ResponseEntity<?> deleteCandidate(@PathVariable Long id) {
         try {
             candidateService.softDeleteCandidate(id);
