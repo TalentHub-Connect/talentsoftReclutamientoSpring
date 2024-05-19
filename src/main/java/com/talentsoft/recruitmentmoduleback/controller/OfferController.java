@@ -1,6 +1,7 @@
 package com.talentsoft.recruitmentmoduleback.controller;
 
 import com.talentsoft.recruitmentmoduleback.DTO.request.OfferUpdateRequest;
+import com.talentsoft.recruitmentmoduleback.DTO.request.OfferUpdateStatusRequest;
 import com.talentsoft.recruitmentmoduleback.model.Offer;
 import com.talentsoft.recruitmentmoduleback.service.OfferService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +68,7 @@ public class OfferController {
         return offerService.create(Offer);
     }
 
+
     @PutMapping("/updateOffer/{id}")
     public ResponseEntity<?> updateOffer(@PathVariable Long id, @RequestBody OfferUpdateRequest offerUpdateRequest) {
         try {
@@ -77,14 +79,15 @@ public class OfferController {
         }
     }
 
-    /**
-     * @name updateOffer
-     * @description Updates an existing Offer.
-     *
-     * @param id the ID of the Offer to update.
-     * @param status the details of the deleted Offer.
-     * @return The updated Offer.
-     */
+    @PutMapping("/updateStatus/{id}")
+    public ResponseEntity<?> updateOfferStatus(@PathVariable Long id, @RequestBody OfferUpdateStatusRequest status) {
+        try {
+            Offer updatedOffer = offerService.updateOfferStatus(id, status);
+            return ResponseEntity.status(HttpStatus.OK).body(updatedOffer);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
 
     @DeleteMapping("/deleteOffer/{id}")
     public Offer deleteOffer(@PathVariable Long id, @RequestBody String status){
