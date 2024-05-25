@@ -1,16 +1,20 @@
 package com.talentsoft.recruitmentmoduleback.service;
 
-import com.talentsoft.recruitmentmoduleback.model.Candidatestatus;
+import com.talentsoft.recruitmentmoduleback.model.CandidateStatus;
 import com.talentsoft.recruitmentmoduleback.repository.CandidateStatusRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 @Service
-public class CandidatestatusService {
+public class candidateStatusService {
+
+    private final CandidateStatusRepository candidateStatusRepository;
 
     @Autowired
-    private CandidateStatusRepository candidateStatusRepository;
+    public candidateStatusService(CandidateStatusRepository candidateStatusRepository) {
+        this.candidateStatusRepository = candidateStatusRepository;
+    }
 
     /**
      * @name getAll
@@ -18,7 +22,7 @@ public class CandidatestatusService {
      *
      * @return An iterable list of Candidatestatus
      */
-    public Iterable<Candidatestatus> getAll(){
+    public Iterable<CandidateStatus> getAll(){
         return candidateStatusRepository.findAll();
     }
 
@@ -29,21 +33,14 @@ public class CandidatestatusService {
      * @param id the ID of the Candidatestatus
      * @return An optional containing the Candidatestatus with the specified ID, if exists
      */
-    public Optional<Candidatestatus> getById(Long id){
+    public Optional<CandidateStatus> getById(Long id){
         return candidateStatusRepository.findById(id);
     }
 
-    /**
-     * @name getById
-     * @description Retrieves Candidatestatus by its ID.
-     *
-     * @param description the Name of the Candidatestatus
-     * @return An optional containing the Candidatestatus with the specified ID, if exists
-     */
-    public Candidatestatus getByDescription(String description){
-        Iterable<Candidatestatus> allStatus = candidateStatusRepository.findAll();
+    public CandidateStatus getByDescription(String description){
+        Iterable<CandidateStatus> allStatus = candidateStatusRepository.findAll();
 
-        for(Candidatestatus c : allStatus){
+        for(CandidateStatus c : allStatus){
             if(c.getDescription().equals(description)){
                 return c;
             }
@@ -59,7 +56,7 @@ public class CandidatestatusService {
      * @param Candidatestatus the details of the Candidatestatus to create
      * @return The newly created Candidatestatus
      */
-    public Candidatestatus create(Candidatestatus Candidatestatus){
+    public CandidateStatus create(CandidateStatus Candidatestatus){
         return candidateStatusRepository.save(Candidatestatus);
     }
 
@@ -70,7 +67,7 @@ public class CandidatestatusService {
      * @param Candidatestatus the Candidatestatus to update
      * @return The updated Candidatestatus
      */
-    public Candidatestatus update(Candidatestatus Candidatestatus){
+    public CandidateStatus update(CandidateStatus Candidatestatus){
         return candidateStatusRepository.save(Candidatestatus);
     }
     

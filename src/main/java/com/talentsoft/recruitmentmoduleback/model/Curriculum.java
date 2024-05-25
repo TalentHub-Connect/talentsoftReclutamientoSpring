@@ -1,8 +1,14 @@
 package com.talentsoft.recruitmentmoduleback.model;
 
 import jakarta.persistence.*;
+import lombok.*;
 
+@Setter
+@Getter
 @Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "curriculum")
 public class Curriculum {
     @Id
@@ -36,85 +42,5 @@ public class Curriculum {
 
     @Column(name = "career", length = 45)
     private String career;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getPersonalobjetive() {
-        return personalobjetive;
-    }
-
-    public void setPersonalobjetive(String personalobjetive) {
-        this.personalobjetive = personalobjetive;
-    }
-
-    public Integer getWorkexperience() {
-        return workexperience;
-    }
-
-    public void setWorkexperience(Integer workexperience) {
-        this.workexperience = workexperience;
-    }
-
-    public String getEducationalhistory() {
-        return educationalhistory;
-    }
-
-    public void setEducationalhistory(String educationalhistory) {
-        this.educationalhistory = educationalhistory;
-    }
-
-    public String getLanguage() {
-        return language;
-    }
-
-    public void setLanguage(String language) {
-        this.language = language;
-    }
-
-    public String getCertification() {
-        return certification;
-    }
-
-    public void setCertification(String certification) {
-        this.certification = certification;
-    }
-
-    public String getPersonalreference() {
-        return personalreference;
-    }
-
-    public void setPersonalreference(String personalreference) {
-        this.personalreference = personalreference;
-    }
-
-    public String getUniversity() {
-        return university;
-    }
-
-    public void setUniversity(String university) {
-        this.university = university;
-    }
-
-    public String getCareer() {
-        return career;
-    }
-
-    public void setCareer(String career) {
-        this.career = career;
-    }
 
 }

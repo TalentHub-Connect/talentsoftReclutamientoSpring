@@ -1,8 +1,7 @@
 package com.talentsoft.recruitmentmoduleback.controller;
 
-import com.talentsoft.recruitmentmoduleback.model.Candidatestatus;
-import com.talentsoft.recruitmentmoduleback.service.CandidateService;
-import com.talentsoft.recruitmentmoduleback.service.CandidatestatusService;
+import com.talentsoft.recruitmentmoduleback.model.CandidateStatus;
+import com.talentsoft.recruitmentmoduleback.service.candidateStatusService;
 import com.talentsoft.recruitmentmoduleback.service.CurriculumService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +16,7 @@ public class CandidatestatusController {
      * @description Conects with the services for Candidatestatus.
      */
     @Autowired
-    private CandidatestatusService candidatestatusService;
+    private candidateStatusService candidatestatusService;
 
     /**
      * @description Conects with the services for Curriculum.
@@ -39,7 +38,7 @@ public class CandidatestatusController {
      */
     @CrossOrigin
     @GetMapping("/getCandidatestatus")
-    public Iterable<Candidatestatus> getAllCandidatestatuss() {
+    public Iterable<CandidateStatus> getAllCandidatestatuss() {
         return candidatestatusService.getAll();
     }
 
@@ -52,7 +51,7 @@ public class CandidatestatusController {
      */
     @CrossOrigin
     @GetMapping("/{id}")
-    public Optional<Candidatestatus> getCandidatestatusById(@PathVariable Long id) {
+    public Optional<CandidateStatus> getCandidatestatusById(@PathVariable Long id) {
         return candidatestatusService.getById(id);
     }
 
@@ -65,7 +64,7 @@ public class CandidatestatusController {
      */
     @CrossOrigin
     @PostMapping("/createCandidatestatus")
-    public Candidatestatus createCandidatestatus(@RequestBody Candidatestatus Candidatestatus) {
+    public CandidateStatus createCandidatestatus(@RequestBody CandidateStatus Candidatestatus) {
         return candidatestatusService.create(Candidatestatus);
     }
 
@@ -74,17 +73,17 @@ public class CandidatestatusController {
      * @description Updates an existing Candidatestatus.
      *
      * @param id the ID of the Candidatestatus to update.
-     * @param candidatestatusDetails the details of the updated Candidatestatus.
+     * @param candidateStatusDetails the details of the updated Candidatestatus.
      * @return The updated Candidatestatus.
      */
     @CrossOrigin
     @PutMapping("/updateCandidatestatus/{id}")
-    public Candidatestatus updateCandidatestatus(@PathVariable Long id, @RequestBody Candidatestatus candidatestatusDetails){
-        Optional<Candidatestatus> optionalCandidatestatus = candidatestatusService.getById(id);
+    public CandidateStatus updateCandidatestatus(@PathVariable Long id, @RequestBody CandidateStatus candidateStatusDetails){
+        Optional<CandidateStatus> optionalCandidatestatus = candidatestatusService.getById(id);
 
-        Candidatestatus candidatestatus = optionalCandidatestatus.get();
+        CandidateStatus candidatestatus = optionalCandidatestatus.get();
 
-        candidatestatus.setDescription(candidatestatusDetails.getDescription());
+        candidatestatus.setDescription(candidateStatusDetails.getDescription());
 
         return candidatestatusService.update(candidatestatus);
 

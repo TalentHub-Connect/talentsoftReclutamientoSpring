@@ -1,7 +1,10 @@
 package com.talentsoft.recruitmentmoduleback.controller;
 
+import com.talentsoft.recruitmentmoduleback.DTO.request.CurriculumRequest;
 import com.talentsoft.recruitmentmoduleback.model.Curriculum;
 import com.talentsoft.recruitmentmoduleback.service.CurriculumService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,12 +16,16 @@ import java.util.Optional;
 @RequestMapping("/curriculum")
 public class CurriculumController {
 
-
     /**
      * @description Conects with the services for Curriculum.
      */
+
+    private final CurriculumService curriculumService;
+
     @Autowired
-    private CurriculumService curriculumService;
+    public CurriculumController(CurriculumService curriculumService) {
+        this.curriculumService = curriculumService;
+    }
 
     /***
      * @name getCurriculumById
@@ -27,6 +34,7 @@ public class CurriculumController {
      * @param id the ID of the Curriculum.
      * @return An optional containing the Curriculum with the specified ID, if exists.
      */
+
     @CrossOrigin
     @GetMapping("/{id}")
     public Optional<Curriculum> getCurriculumById(@PathVariable Long id) {
@@ -40,15 +48,13 @@ public class CurriculumController {
      * @param curriculum the details of the Curriculum to create.
      * @return The newly created Curriculum.
      */
-    @CrossOrigin
+
     @PostMapping("/createCurriculum")
-    public ResponseEntity<Long> createCurriculum(@RequestBody Curriculum curriculum) {
+    public ResponseEntity<?> createCurriculum(@RequestBody CurriculumRequest curriculum) {
         try {
-            Curriculum cu = curriculumService.create(curriculum);
-            Long curriculumId = cu.getId().longValue();
-            return new ResponseEntity<>(curriculumId, HttpStatus.CREATED);
+            return ResponseEntity.status(HttpStatus.CREATED).body(curriculumService.create(curriculum));
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -60,7 +66,11 @@ public class CurriculumController {
      * @param curriculumDetails the details of the updated Curriculum.
      * @return The updated Curriculum.
      */
-    @CrossOrigin
+
+
+    @Operation(summary = "Update curriculum")
+    @ApiResponse(responseCode = "200", description = "Curriculum updated")
+    @ApiResponse(responseCode = "404", description = "Curriculum not found")
     @PutMapping("/updateCurriculum/{id}")
     public Curriculum updateCurriculum(@PathVariable Long id, @RequestBody Curriculum curriculumDetails){
         Optional<Curriculum> optionalCurriculum = curriculumService.getById(id);
