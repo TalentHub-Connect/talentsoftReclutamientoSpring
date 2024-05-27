@@ -1,14 +1,13 @@
 package com.talentsoft.recruitmentmoduleback.DTO.request;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Data
 @Builder
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class CurriculumRequest {
     private String address;
     private String personalObjetive;
