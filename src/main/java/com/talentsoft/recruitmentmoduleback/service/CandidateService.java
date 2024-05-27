@@ -88,6 +88,8 @@ public class CandidateService {
         return candidateRepository.findById(id);
     }
 
+
+
     public Candidate softDeleteCandidate(Integer id) {
         Candidate candidate = candidateRepository.findById(id).orElse(null);
         if(candidate != null){

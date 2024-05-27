@@ -51,8 +51,12 @@ public class OfferController {
      */
 
     @GetMapping("/{id}")
-    public Optional<Offer> getOfferById(@PathVariable Long id) {
-        return offerService.getById(id);
+    public ResponseEntity<?> getOfferById(@PathVariable Long id) {
+        if (offerService.getById(id).isPresent()) {
+            return ResponseEntity.ok(offerService.getById(id).get());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Offer not found");
+        }
     }
 
     /**
@@ -92,7 +96,6 @@ public class OfferController {
     @DeleteMapping("/deleteOffer/{id}")
     public Offer deleteOffer(@PathVariable Long id, @RequestBody String status){
         Optional<Offer> optionalOffer = offerService.getById(id);
-
         Offer offer = optionalOffer.get();
         offer.setStatus(status);
         return offerService.update(offer);
