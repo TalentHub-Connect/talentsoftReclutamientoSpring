@@ -5,6 +5,7 @@ import com.talentsoft.recruitmentmoduleback.repository.CandidateStatusRepository
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 @Service
 public class candidateStatusService {
@@ -22,7 +23,7 @@ public class candidateStatusService {
      *
      * @return An iterable list of Candidatestatus
      */
-    public Iterable<CandidateStatus> getAll(){
+    public List<CandidateStatus> getAll(){
         return candidateStatusRepository.findAll();
     }
 

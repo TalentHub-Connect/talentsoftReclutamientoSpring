@@ -35,10 +35,13 @@ public class CurriculumController {
      * @return An optional containing the Curriculum with the specified ID, if exists.
      */
 
-    @CrossOrigin
     @GetMapping("/{id}")
     public Optional<Curriculum> getCurriculumById(@PathVariable Long id) {
-        return curriculumService.getById(id);
+        if (curriculumService.getById(id).isPresent()) {
+            return curriculumService.getById(id);
+        } else {
+            return Optional.empty();
+        }
     }
 
     /***
@@ -74,9 +77,7 @@ public class CurriculumController {
     @PutMapping("/updateCurriculum/{id}")
     public Curriculum updateCurriculum(@PathVariable Long id, @RequestBody Curriculum curriculumDetails){
         Optional<Curriculum> optionalCurriculum = curriculumService.getById(id);
-
         Curriculum curriculum = optionalCurriculum.get();
-
         curriculum.setAddress(curriculumDetails.getAddress());
         curriculum.setPersonalobjetive(curriculumDetails.getPersonalobjetive());
         curriculum.setWorkexperience(curriculumDetails.getWorkexperience());

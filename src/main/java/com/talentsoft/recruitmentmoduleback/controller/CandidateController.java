@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 
 @RestController
 @RequestMapping("/candidate")
@@ -31,7 +33,7 @@ public class CandidateController {
         return candidateService.getAll();
     }
 
-    /***
+    /**
      * @name getCandidateById
      * @description Retrieves a Candidate by their ID.
      * @param id the ID of the Candidate.
@@ -40,12 +42,16 @@ public class CandidateController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getCandidateById(@PathVariable Integer id) {
-        try {
-            return ResponseEntity.status(HttpStatus.OK).body(candidateService.getById(id));
-        } catch (CandidateNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        Optional<Candidate> candidate = candidateService.getById(id);
+        if (candidate.isPresent()) {
+            return ResponseEntity.ok(candidate.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Candidate not found with id: " + id);
         }
     }
+
+
+
 
     /**
      * @param candidate the details of the Candidate to create.
@@ -73,11 +79,10 @@ public class CandidateController {
 
     @PutMapping("/updateCandidate/{id}")
     public ResponseEntity<?> updateCandidate(@PathVariable Integer id, @RequestBody CandidateDTO candidateDetails) {
-        try {
-            Candidate updatedCandidate = candidateService.updateCandidate(id, candidateDetails.getStatus(), candidateDetails.getPhoneNumber());
-            return ResponseEntity.ok(updatedCandidate);
-        } catch (CandidateNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        if (candidateService.updateCandidate(id, candidateDetails.getStatus(), candidateDetails.getPhoneNumber()) != null) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Candidate not found with id: " + id);
         }
     }
 
@@ -90,10 +95,10 @@ public class CandidateController {
 
     @PutMapping("/deleteCandidate/{id}")
     public ResponseEntity<?> deleteCandidate(@PathVariable Integer id) {
-        try {
-           return ResponseEntity.ok(candidateService.softDeleteCandidate(id));
-        } catch (CandidateNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        if (candidateService.softDeleteCandidate(id) != null) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Candidate not found with id: " + id);
         }
     }
 }
